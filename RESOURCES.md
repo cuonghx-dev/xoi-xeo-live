@@ -1,1 +1,2 @@
 - https://github.com/magnetikonline/docker-acestream-server
+- https://github.com/martinbjeldbak/acestream-http-proxy
