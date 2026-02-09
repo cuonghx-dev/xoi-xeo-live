@@ -1,0 +1,10 @@
+webrtc: yes
+webrtcAddress: :8889
+webrtcICEHostNAT1To1IPs:
+  - "127.0.0.1"
+
+webrtcICEUDPMuxAddress: :8189
+
+paths:
+  all:
+    source: publisher

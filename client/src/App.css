@@ -1,0 +1,32 @@
+.player-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 1280px;
+}
+
+.status-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 10;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.status-badge[data-status='live'] {
+  background: rgba(220, 38, 38, 0.85);
+}
+
+.status-badge[data-status='error'] {
+  background: rgba(220, 38, 38, 0.85);
+}
+
+.status-badge[data-status='connecting'] {
+  background: rgba(202, 138, 4, 0.85);
+}

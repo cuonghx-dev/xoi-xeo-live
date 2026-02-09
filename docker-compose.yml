@@ -1,0 +1,17 @@
+services:
+  acelink:
+    image: blaiseio/acelink
+    platform: linux/amd64
+    ports:
+      - "6878:6878"
+
+  mediamtx:
+    image: bluenviron/mediamtx:1
+    volumes:
+      - ./mediamtx/config.yml:/mediamtx.yml
+    ports:
+      - "8889:8889" # WebRTC HTTP (WHIP/WHEP)
+      - "8189:8189/udp" # WebRTC ICE/UDP  ← this one is critical!
+      - "1935:1935" # RTMP (optional)
+      - "8888:8888" # HLS (optional)
+      - "8554:8554" # RTSP (optional)
