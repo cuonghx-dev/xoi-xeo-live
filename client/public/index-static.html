@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xoi Xeo Live – The Gunners Hub</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --red:        #EF0107;
+    --red-dim:    rgba(239,1,7,.12);
+    --red-border: rgba(239,1,7,.28);
+    --bg:         #0d0d0d;
+    --panel:      #111111;
+    --panel2:     #161616;
+    --border:     #1e1e1e;
+    --text:       #ffffff;
+    --muted:      #888888;
+    --dim:        #444444;
+    --faint:      #2a2a2a;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ══════════════════════════════════════
+     HEADER
+  ══════════════════════════════════════ */
+  header {
+    height: 54px;
+    background: var(--panel);
+    border-bottom: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    user-select: none;
+  }
+  .logo-cannon { width: 36px; height: 36px; flex-shrink: 0; }
+  .logo-text   { display: flex; flex-direction: column; line-height: 1.15; }
+  .logo-name   {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+  .logo-name em { color: var(--red); font-style: normal; }
+  .logo-tag  { font-size: 9.5px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+
+  nav { display: flex; gap: 4px; }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 5px 13px;
+    border-radius: 4px;
+    transition: background .18s, color .18s;
+  }
+  nav a:hover { color: #fff; background: rgba(239,1,7,.18); }
+  nav a.active { color: #fff; background: var(--red); }
+
+  .header-right { display: flex; align-items: center; gap: 10px; }
+  .live-badge {
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 4px 9px;
+    border-radius: 3px;
+    letter-spacing: 1.5px;
+    animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.45} }
+
+  /* ══════════════════════════════════════
+     MAIN LAYOUT
+  ══════════════════════════════════════ */
+  .main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ══════════════════════════════════════
+     VIDEO SECTION
+  ══════════════════════════════════════ */
+  .video-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 12px;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  /* Match info bar */
+  .match-bar {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .match-teams { font-size: 15px; font-weight: 700; }
+  .match-meta  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .match-league {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--red-dim);
+    border: 1px solid var(--red-border);
+    border-radius: 20px;
+    padding: 4px 12px 4px 8px;
+    font-size: 11.5px;
+    color: var(--red);
+    font-weight: 700;
+    white-space: nowrap;
+    letter-spacing: .3px;
+  }
+
+  /* Player wrapper */
+  .player-wrap {
+    position: relative;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    flex: 1;
+    min-height: 0;
+    border: 1px solid var(--border);
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Placeholder */
+  .placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background: radial-gradient(ellipse at 50% 40%, #1c0202 0%, #0a0000 55%, #000 100%);
+    z-index: 1;
+  }
+  .placeholder-crest { width: 108px; height: auto; opacity: .22; }
+  .placeholder-text { text-align: center; }
+  .placeholder-text strong { display: block; font-size: 14px; color: #555; font-weight: 600; margin-bottom: 4px; }
+  .placeholder-text small  { font-size: 11px; color: #333; }
+
+  /* Controls overlay */
+  .controls {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.4) 60%, transparent 100%);
+    padding: 48px 14px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity .22s;
+    z-index: 5;
+  }
+  .player-wrap:hover .controls { opacity: 1; }
+
+  .ctrl-btn {
+    background: none;
+    border: none;
+    color: #ddd;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: color .18s;
+    line-height: 0;
+  }
+  .ctrl-btn:hover { color: var(--red); }
+  .ctrl-btn svg   { width: 18px; height: 18px; display: block; }
+
+  .progress-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    cursor: pointer;
+  }
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,.18);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: height .15s;
+  }
+  .progress-wrap:hover .progress-bar { height: 5px; }
+  .progress-fill {
+    height: 100%;
+    background: var(--red);
+    border-radius: 2px;
+    width: 0%;
+  }
+
+  .time-label { font-size: 11.5px; color: #bbb; white-space: nowrap; letter-spacing: .3px; }
+  .vol-slider {
+    width: 68px;
+    accent-color: var(--red);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .quality-btn {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .8px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.14);
+    color: #ccc;
+    padding: 3px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background .18s, border-color .18s, color .18s;
+    flex-shrink: 0;
+  }
+  .quality-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+  .fs-btn { margin-left: auto; }
+
+  /* Stream tabs */
+  .stream-tabs { display: flex; gap: 6px; flex-shrink: 0; }
+  .stream-tab {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: border-color .18s, color .18s, background .18s;
+    user-select: none;
+  }
+  .stream-tab:hover  { border-color: var(--red); color: #fff; }
+  .stream-tab.active { background: var(--red); border-color: var(--red); color: #fff; font-weight: 700; }
+
+  /* ══════════════════════════════════════
+     CHAT SIDEBAR
+  ══════════════════════════════════════ */
+  .chat-sidebar {
+    width: 270px;
+    flex-shrink: 0;
+    background: var(--panel);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .chat-header {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chat-header-icon { width: 20px; height: 20px; flex-shrink: 0; opacity: .75; }
+  .chat-header-title { font-size: 13px; font-weight: 700; letter-spacing: .3px; }
+  .chat-viewers {
+    margin-left: auto;
+    font-size: 10.5px;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .viewers-dot {
+    width: 6px; height: 6px;
+    background: var(--dim);
+    border-radius: 50%;
+  }
+
+  .chat-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .chat-crest { width: 60px; height: auto; opacity: .15; }
+  .coming-title { font-size: 14px; font-weight: 700; color: #444; }
+  .coming-sub {
+    font-size: 12px;
+    color: #2e2e2e;
+    line-height: 1.7;
+    max-width: 190px;
+  }
+  .coming-tag {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid var(--red-border);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+
+  .chat-footer {
+    padding: 10px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 6px;
+  }
+  .chat-input {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: #2a2a2a;
+    font-size: 12px;
+    padding: 8px 10px;
+    outline: none;
+    cursor: not-allowed;
+    font-family: inherit;
+  }
+  .chat-send {
+    background: #160b0b;
+    border: 1px solid var(--border);
+    color: #2d2d2d;
+    border-radius: 6px;
+    padding: 0 12px;
+    cursor: not-allowed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .chat-send svg { width: 14px; height: 14px; display: block; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ══════════════════ HEADER ══════════════════ -->
+  <header>
+    <a href="#" class="logo">
+      <!-- Arsenal Cannon Badge (small) -->
+      <svg class="logo-cannon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield background -->
+        <path d="M40 4 L72 16 L72 46 Q72 66 40 76 Q8 66 8 46 L8 16 Z" fill="#1a0000" stroke="#EF0107" stroke-width="2"/>
+        <!-- Cannon barrel -->
+        <rect x="14" y="35" width="44" height="11" rx="2.5" fill="#EF0107"/>
+        <!-- Cannon muzzle cap -->
+        <rect x="55" y="33" width="14" height="15" rx="2" fill="#EF0107"/>
+        <!-- Muzzle opening -->
+        <rect x="65" y="37" width="5" height="7" rx="1.5" fill="#6b0000"/>
+        <!-- Wheel left -->
+        <circle cx="26" cy="50" r="9" stroke="#EF0107" stroke-width="2" fill="#1a0000"/>
+        <circle cx="26" cy="50" r="3.5" fill="#EF0107"/>
+        <line x1="26" y1="41" x2="26" y2="59" stroke="#EF0107" stroke-width="1"/>
+        <line x1="17" y1="50" x2="35" y2="50" stroke="#EF0107" stroke-width="1"/>
+        <!-- Wheel right -->
+        <circle cx="46" cy="50" r="9" stroke="#EF0107" stroke-width="2" fill="#1a0000"/>
+        <circle cx="46" cy="50" r="3.5" fill="#EF0107"/>
+        <line x1="46" y1="41" x2="46" y2="59" stroke="#EF0107" stroke-width="1"/>
+        <line x1="37" y1="50" x2="55" y2="50" stroke="#EF0107" stroke-width="1"/>
+        <!-- AFC text -->
+        <text x="40" y="30" text-anchor="middle" fill="#EF0107" font-size="10" font-weight="900" font-family="Georgia, serif" letter-spacing="1">AFC</text>
+      </svg>
+
+      <div class="logo-text">
+        <span class="logo-name">XOI XEO <em>LIVE</em></span>
+        <span class="logo-tag">The Gunners Hub</span>
+      </div>
+    </a>
+
+    <nav>
+      <a href="#" class="active">Live</a>
+      <a href="#">Schedule</a>
+      <a href="#">Results</a>
+      <a href="#">Highlights</a>
+    </nav>
+
+    <div class="header-right">
+      <span class="live-badge">● LIVE</span>
+    </div>
+  </header>
+
+  <!-- ══════════════════ MAIN ══════════════════ -->
+  <div class="main">
+
+    <!-- VIDEO SECTION -->
+    <div class="video-section">
+
+      <!-- Match info bar -->
+      <div class="match-bar">
+        <div>
+          <div class="match-teams">Arsenal FC&ensp;vs&ensp;Manchester City</div>
+          <div class="match-meta">21:00 · Emirates Stadium, London · Sat, 22 Feb 2026</div>
+        </div>
+        <div class="match-league">
+          <!-- Premier League lion (simplified) -->
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0">
+            <path d="M12 3 C8 3 5 6 5 9 C5 11.5 6.5 13.5 8.5 14.5 L8 19 L16 19 L15.5 14.5 C17.5 13.5 19 11.5 19 9 C19 6 16 3 12 3Z"/>
+          </svg>
+          Premier League
+        </div>
+      </div>
+
+      <!-- Player -->
+      <div class="player-wrap" id="playerWrap">
+
+        <!-- Placeholder (shown when stream inactive) -->
+        <div class="placeholder" id="placeholder">
+          <!-- Large Arsenal Crest SVG -->
+          <svg class="placeholder-crest" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Shield -->
+            <path d="M100 8 L186 38 L186 138 Q186 196 100 232 Q14 196 14 138 L14 38 Z"
+                  stroke="#EF0107" stroke-width="3.5" fill="rgba(239,1,7,0.06)"/>
+            <!-- Inner shield highlight -->
+            <path d="M100 20 L174 46 L174 138 Q174 188 100 220 Q26 188 26 138 L26 46 Z"
+                  stroke="rgba(239,1,7,0.2)" stroke-width="1" fill="none"/>
+            <!-- AFC lettering -->
+            <text x="100" y="80" text-anchor="middle" fill="#EF0107" font-size="26"
+                  font-weight="900" font-family="Georgia, 'Times New Roman', serif" letter-spacing="4">AFC</text>
+            <!-- Divider -->
+            <line x1="46" y1="92" x2="154" y2="92" stroke="rgba(239,1,7,0.35)" stroke-width="1"/>
+            <!-- Cannon barrel -->
+            <rect x="32" y="108" width="104" height="22" rx="5" fill="#EF0107"/>
+            <!-- Cannon muzzle -->
+            <rect x="130" y="104" width="32" height="30" rx="4" fill="#EF0107"/>
+            <!-- Muzzle opening -->
+            <rect x="156" y="109" width="9" height="20" rx="2.5" fill="#6b0000"/>
+            <!-- Wheel left -->
+            <circle cx="58"  cy="140" r="17" stroke="#EF0107" stroke-width="3" fill="rgba(239,1,7,0.08)"/>
+            <circle cx="58"  cy="140" r="6"  fill="#EF0107"/>
+            <line x1="58" y1="123" x2="58" y2="157" stroke="#EF0107" stroke-width="1.5"/>
+            <line x1="41"  y1="140" x2="75" y2="140" stroke="#EF0107" stroke-width="1.5"/>
+            <!-- Wheel right -->
+            <circle cx="104" cy="140" r="17" stroke="#EF0107" stroke-width="3" fill="rgba(239,1,7,0.08)"/>
+            <circle cx="104" cy="140" r="6"  fill="#EF0107"/>
+            <line x1="104" y1="123" x2="104" y2="157" stroke="#EF0107" stroke-width="1.5"/>
+            <line x1="87"  y1="140" x2="121" y2="140" stroke="#EF0107" stroke-width="1.5"/>
+            <!-- Axle beam -->
+            <rect x="52" y="128" width="58" height="8" rx="2" fill="rgba(239,1,7,0.3)"/>
+            <!-- ARSENAL text -->
+            <text x="100" y="186" text-anchor="middle" fill="#EF0107" font-size="13"
+                  font-weight="700" font-family="'Segoe UI', Arial, sans-serif" letter-spacing="5">ARSENAL</text>
+            <text x="100" y="202" text-anchor="middle" fill="rgba(239,1,7,0.5)" font-size="8.5"
+                  font-weight="500" font-family="sans-serif" letter-spacing="2">FOOTBALL CLUB</text>
+          </svg>
+
+          <div class="placeholder-text">
+            <strong>Stream not active</strong>
+            <small>Kick-off · Emirates Stadium · 21:00</small>
+          </div>
+        </div>
+
+        <!-- Video element -->
+        <video id="videoEl" autoplay muted playsinline></video>
+
+        <!-- Controls overlay (hover to reveal) -->
+        <div class="controls" id="controls">
+
+          <!-- Play / Pause -->
+          <button class="ctrl-btn" id="playBtn" title="Play / Pause">
+            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+
+          <!-- Progress bar -->
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <!-- Time / LIVE label -->
+          <span class="time-label" id="timeLabel">LIVE</span>
+
+          <!-- Mute -->
+          <button class="ctrl-btn" id="muteBtn" title="Mute / Unmute">
+            <svg id="muteIcon" viewBox="0 0 24 24" fill="currentColor">
+              <path id="muteIconPath" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+            </svg>
+          </button>
+
+          <!-- Volume -->
+          <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="80">
+
+          <!-- Quality -->
+          <button class="quality-btn">HD</button>
+
+          <!-- Fullscreen -->
+          <button class="ctrl-btn fs-btn" id="fsBtn" title="Fullscreen">
+            <svg id="fsIcon" viewBox="0 0 24 24" fill="currentColor">
+              <path id="fsIconPath" d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
+            </svg>
+          </button>
+
+        </div>
+      </div><!-- /player-wrap -->
+
+      <!-- Stream source tabs -->
+      <div class="stream-tabs" id="streamTabs">
+        <div class="stream-tab active" data-idx="0">Stream 1</div>
+        <div class="stream-tab"        data-idx="1">Stream 2</div>
+        <div class="stream-tab"        data-idx="2">Stream 3</div>
+      </div>
+
+    </div><!-- /video-section -->
+
+    <!-- ══════════════════ CHAT SIDEBAR ══════════════════ -->
+    <div class="chat-sidebar">
+
+      <div class="chat-header">
+        <!-- Small cannon icon -->
+        <svg class="chat-header-icon" viewBox="0 0 80 48" fill="none">
+          <rect x="4"  y="16" width="50" height="13" rx="3"   fill="#EF0107"/>
+          <rect x="51" y="14" width="18" height="17" rx="2.5" fill="#EF0107"/>
+          <rect x="66" y="18" width="6"  height="9"  rx="1.5" fill="#6b0000"/>
+          <circle cx="18" cy="34" r="9" stroke="#EF0107" stroke-width="2.5" fill="none"/>
+          <circle cx="18" cy="34" r="3.5" fill="#EF0107"/>
+          <circle cx="40" cy="34" r="9" stroke="#EF0107" stroke-width="2.5" fill="none"/>
+          <circle cx="40" cy="34" r="3.5" fill="#EF0107"/>
+        </svg>
+        <span class="chat-header-title">Gunners Chat</span>
+        <div class="chat-viewers">
+          <span class="viewers-dot"></span>
+          0 online
+        </div>
+      </div>
+
+      <div class="chat-body">
+        <!-- Arsenal Crest (dim) -->
+        <svg class="chat-crest" viewBox="0 0 200 240" fill="none">
+          <path d="M100 8 L186 38 L186 138 Q186 196 100 232 Q14 196 14 138 L14 38 Z"
+                stroke="#EF0107" stroke-width="3.5" fill="rgba(239,1,7,0.04)"/>
+          <text x="100" y="80" text-anchor="middle" fill="#EF0107" font-size="26"
+                font-weight="900" font-family="Georgia, serif" letter-spacing="4">AFC</text>
+          <line x1="46" y1="92" x2="154" y2="92" stroke="rgba(239,1,7,0.25)" stroke-width="1"/>
+          <rect x="32" y="108" width="104" height="22" rx="5" fill="#EF0107"/>
+          <rect x="130" y="104" width="32" height="30" rx="4" fill="#EF0107"/>
+          <rect x="156" y="109" width="9" height="20" rx="2.5" fill="#6b0000"/>
+          <circle cx="58"  cy="140" r="17" stroke="#EF0107" stroke-width="3" fill="none"/>
+          <circle cx="58"  cy="140" r="6"  fill="#EF0107"/>
+          <circle cx="104" cy="140" r="17" stroke="#EF0107" stroke-width="3" fill="none"/>
+          <circle cx="104" cy="140" r="6"  fill="#EF0107"/>
+        </svg>
+
+        <div class="coming-title">Coming Soon</div>
+        <div class="coming-sub">Chat with fellow Gooners coming soon. Stay tuned, Gunner!</div>
+        <span class="coming-tag">🔴 Gooners Only</span>
+      </div>
+
+      <div class="chat-footer">
+        <input class="chat-input" type="text" placeholder="Chat coming soon…" disabled>
+        <button class="chat-send" disabled>
+          <svg viewBox="0 0 24 24" fill="#2d2d2d">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+
+    </div><!-- /chat-sidebar -->
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── refs ── */
+  const playerWrap   = document.getElementById('playerWrap');
+  const videoEl      = document.getElementById('videoEl');
+  const placeholder  = document.getElementById('placeholder');
+  const playBtn      = document.getElementById('playBtn');
+  const playIcon     = document.getElementById('playIcon');
+  const muteBtn      = document.getElementById('muteBtn');
+  const muteIconPath = document.getElementById('muteIconPath');
+  const volSlider    = document.getElementById('volSlider');
+  const progressFill = document.getElementById('progressFill');
+  const fsBtn        = document.getElementById('fsBtn');
+  const fsIconPath   = document.getElementById('fsIconPath');
+
+  /* ── State ── */
+  let isPlaying = false;
+  let isMuted   = true;
+
+  /* ── Stream tabs ── */
+  document.getElementById('streamTabs').addEventListener('click', function (e) {
+    const tab = e.target.closest('.stream-tab');
+    if (!tab) return;
+    document.querySelectorAll('.stream-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    /* In production: switch stream source & reconnect WHEP here */
+  });
+
+  /* ── Nav links (visual only) ── */
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  /* ── Play / Pause (demo toggle) ── */
+  const PLAY_PATH  = 'M8 5v14l11-7z';
+  const PAUSE_PATH = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
+  playBtn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    isPlaying = !isPlaying;
+    playIcon.querySelector('path').setAttribute('d', isPlaying ? PAUSE_PATH : PLAY_PATH);
+    placeholder.style.display = isPlaying ? 'none' : 'flex';
+    /* In production: call connect() / disconnect() here */
+  });
+
+  /* ── Mute ── */
+  const VOL_ON_PATH  = 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z';
+  const VOL_OFF_PATH = 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z';
+
+  function syncMute() {
+    videoEl.muted = isMuted;
+    muteIconPath.setAttribute('d', isMuted ? VOL_OFF_PATH : VOL_ON_PATH);
+    volSlider.value = isMuted ? 0 : Math.max(10, parseInt(volSlider.value) || 80);
+  }
+
+  muteBtn.addEventListener('click', function () {
+    isMuted = !isMuted;
+    syncMute();
+  });
+
+  volSlider.addEventListener('input', function () {
+    const val = parseInt(this.value);
+    videoEl.volume = val / 100;
+    if (val === 0) { isMuted = true;  videoEl.muted = true;  muteIconPath.setAttribute('d', VOL_OFF_PATH); }
+    else           { isMuted = false; videoEl.muted = false; muteIconPath.setAttribute('d', VOL_ON_PATH);  }
+  });
+
+  /* ── Fullscreen ── */
+  const FS_ENTER = 'M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z';
+  const FS_EXIT  = 'M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z';
+
+  fsBtn.addEventListener('click', function () {
+    if (!document.fullscreenElement) playerWrap.requestFullscreen();
+    else document.exitFullscreen();
+  });
+
+  document.addEventListener('fullscreenchange', function () {
+    fsIconPath.setAttribute('d', document.fullscreenElement ? FS_EXIT : FS_ENTER);
+  });
+
+  /* ── Live progress bar animation ── */
+  let prog = 0;
+  setInterval(function () {
+    prog = (prog + 0.012) % 100;
+    progressFill.style.width = prog + '%';
+  }, 100);
+
+  /* ── Init ── */
+  syncMute();
+  videoEl.volume = 0.8;
+
+})();
+</script>
+</body>
+</html>
