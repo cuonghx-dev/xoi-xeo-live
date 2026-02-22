@@ -1,10 +1,4 @@
 services:
-  acelink:
-    image: blaiseio/acelink
-    platform: linux/amd64
-    ports:
-      - "6878:6878"
-
   mediamtx:
     image: bluenviron/mediamtx:1
     volumes:

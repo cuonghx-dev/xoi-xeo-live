@@ -8,3 +8,5 @@ webrtcICEUDPMuxAddress: :8189
 paths:
   all:
     source: publisher
+    publishUser: admin
+    publishPass: 1
