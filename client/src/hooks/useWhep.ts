@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Status } from "@/types";
 
-const WHEP_URL = "http://localhost:8889/live/stream/whep";
+const WHEP_URL = "http://18.141.183.26:8889/live/stream/whep";
 
 export function useWhep() {
   const videoRef = useRef<HTMLVideoElement>(null);
