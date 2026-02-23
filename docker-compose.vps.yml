@@ -1,14 +1,9 @@
 services:
   mediamtx:
     image: bluenviron/mediamtx:1
+    network_mode: host
     volumes:
       - ./mediamtx/config.yml:/mediamtx.yml
-    ports:
-      - "8889:8889" # WebRTC HTTP (WHIP/WHEP)
-      - "8189:8189/udp" # WebRTC ICE/UDP  ← this one is critical!
-      - "1935:1935" # RTMP (optional)
-      - "8888:8888" # HLS (optional)
-      - "8554:8554" # RTSP (optional)
 
   client:
     build:
