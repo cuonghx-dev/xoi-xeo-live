@@ -5,6 +5,9 @@ webrtcICEHostNAT1To1IPs:
 
 webrtcICEUDPMuxAddress: :8189
 
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+
 paths:
   all:
     source: publisher
