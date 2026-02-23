@@ -1,7 +1,7 @@
 webrtc: yes
 webrtcAddress: :8889
 webrtcICEHostNAT1To1IPs:
-  - "127.0.0.1"
+  - "18.141.183.26"
 
 webrtcICEUDPMuxAddress: :8189
 
