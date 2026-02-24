@@ -1,4 +1,4 @@
-const NAV_LINKS = ["Live", "Schedule", "Results", "Highlights"] as const;
+const NAV_LINKS = ["Live", "Matches", "Rankings"] as const;
 
 export function Navbar() {
   return (
