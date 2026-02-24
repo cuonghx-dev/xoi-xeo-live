@@ -1,4 +1,11 @@
-export function ChatSidebar() {
+interface ChatSidebarProps {
+  open: boolean;
+  onToggle: () => void;
+}
+
+export function ChatSidebar({ open, onToggle }: ChatSidebarProps) {
+  if (!open) return null;
+
   return (
     <div className="w-[270px] shrink-0 bg-surface border-l border-wire flex flex-col overflow-hidden">
 
@@ -15,9 +22,18 @@ export function ChatSidebar() {
           <circle cx="40" cy="34" r="3.5" fill="#EF0107"/>
         </svg>
         <span className="text-[13px] font-bold tracking-[0.3px]">Gunners Chat</span>
-        <div className="ml-auto flex items-center gap-1.5 text-[10.5px] text-[#444]">
+        <div className="ml-auto flex items-center gap-2 text-[10.5px] text-[#444]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#444] inline-block"/>
           0 online
+          <button
+            onClick={onToggle}
+            title="Close chat"
+            className="ml-1 text-[#444] hover:text-[#aaa] transition-colors bg-transparent border-none cursor-pointer leading-none p-0.5"
+          >
+            <svg className="w-3.5 h-3.5 block" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
         </div>
       </div>
 

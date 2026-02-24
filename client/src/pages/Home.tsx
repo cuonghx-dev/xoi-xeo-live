@@ -52,6 +52,7 @@ export default function Home() {
   const [muted, setMuted] = useState(true);
   const [volume, setVolume] = useState(80);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [chatOpen, setChatOpen] = useState(() => window.innerWidth >= 768);
 
   const isLive = status === "live";
   const isConnecting = status === "connecting";
@@ -72,6 +73,15 @@ export default function Home() {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", handler);
     return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  /* close chat on mobile resize */
+  useEffect(() => {
+    const handler = () => {
+      if (window.innerWidth < 768) setChatOpen(false);
+    };
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
   /* live progress bar — direct DOM mutation, no re-renders */
@@ -124,16 +134,34 @@ export default function Home() {
                 21:00 · Emirates Stadium, London · Sat, 22 Feb 2026
               </div>
             </div>
-            <div className="ml-auto flex items-center gap-1.5 bg-brand/10 border border-brand/25 rounded-full px-3 py-1 text-brand text-[11.5px] font-bold whitespace-nowrap tracking-[0.3px]">
-              {/* Premier League badge icon */}
-              <svg
-                className="w-3.5 h-3.5 shrink-0"
-                viewBox="0 0 24 24"
-                fill="currentColor"
+            <div className="ml-auto flex items-center gap-2">
+              <div className="flex items-center gap-1.5 bg-brand/10 border border-brand/25 rounded-full px-3 py-1 text-brand text-[11.5px] font-bold whitespace-nowrap tracking-[0.3px]">
+                {/* Premier League badge icon */}
+                <svg
+                  className="w-3.5 h-3.5 shrink-0"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 3C8 3 5 6 5 9c0 2.5 1.5 4.5 3.5 5.5L8 19h8l-.5-4.5C17.5 13.5 19 11.5 19 9c0-3-3-6-7-6z" />
+                </svg>
+                Premier League
+              </div>
+              {/* Chat toggle */}
+              <button
+                onClick={() => setChatOpen((v) => !v)}
+                title={chatOpen ? "Close chat" : "Open chat"}
+                className={[
+                  "flex items-center gap-1.5 text-[11.5px] font-bold px-3 py-1 rounded-full border transition-colors cursor-pointer",
+                  chatOpen
+                    ? "bg-brand/10 border-brand/25 text-brand"
+                    : "bg-surface border-wire text-[#555] hover:border-brand/25 hover:text-brand",
+                ].join(" ")}
               >
-                <path d="M12 3C8 3 5 6 5 9c0 2.5 1.5 4.5 3.5 5.5L8 19h8l-.5-4.5C17.5 13.5 19 11.5 19 9c0-3-3-6-7-6z" />
-              </svg>
-              Premier League
+                <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+                Chat
+              </button>
             </div>
           </div>
 
@@ -452,7 +480,7 @@ export default function Home() {
         </div>
 
         {/* ── CHAT SIDEBAR ── */}
-        <ChatSidebar />
+        <ChatSidebar open={chatOpen} onToggle={() => setChatOpen((v) => !v)} />
       </main>
     </div>
   );
