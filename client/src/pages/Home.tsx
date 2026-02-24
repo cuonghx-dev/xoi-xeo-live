@@ -125,12 +125,12 @@ export default function Home() {
         {/* ── VIDEO SECTION ── */}
         <div className="flex-1 flex flex-col overflow-hidden p-3 gap-2.5 min-w-0">
           {/* Match info bar */}
-          <div className="bg-surface border border-wire rounded-lg px-4 py-[9px] flex items-center gap-3.5 shrink-0">
-            <div>
-              <div className="text-[15px] font-bold">
+          <div className="bg-surface border border-wire rounded-lg px-4 py-[9px] flex flex-wrap items-center gap-x-3.5 gap-y-1.5 shrink-0">
+            <div className="min-w-0">
+              <div className="text-[15px] font-bold truncate">
                 Arsenal FC&ensp;vs&ensp;Manchester City
               </div>
-              <div className="text-[11px] text-[#888] mt-0.5">
+              <div className="text-[11px] text-[#888] mt-0.5 truncate">
                 21:00 · Emirates Stadium, London · Sat, 22 Feb 2026
               </div>
             </div>

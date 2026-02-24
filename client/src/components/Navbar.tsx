@@ -38,7 +38,7 @@ export function Navbar() {
       </a>
 
       {/* Nav */}
-      <nav className="flex gap-1">
+      <nav className="hidden md:flex gap-1">
         {NAV_LINKS.map((item) => (
           <a
             key={item}
