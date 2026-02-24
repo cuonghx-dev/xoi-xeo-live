@@ -3,8 +3,6 @@ import { useWhep } from "@/hooks/useWhep";
 import { Navbar } from "@/components/Navbar";
 import { ChatSidebar } from "@/components/ChatSidebar";
 
-const STREAM_TABS = ["Stream 1", "Stream 2", "Stream 3"] as const;
-
 /* ── SVG paths for icon toggling ── */
 const PATH_PLAY = "M8 5v14l11-7z";
 const PATH_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
@@ -48,7 +46,6 @@ export default function Home() {
   const progressFillRef = useRef<HTMLDivElement>(null);
   const progRef = useRef(0);
 
-  const [activeStream, setActiveStream] = useState(0);
   const [muted, setMuted] = useState(true);
   const [volume, setVolume] = useState(80);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -460,23 +457,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Stream tabs */}
-          <div className="flex gap-1.5 shrink-0">
-            {STREAM_TABS.map((label, i) => (
-              <button
-                key={label}
-                onClick={() => setActiveStream(i)}
-                className={[
-                  "text-[12px] font-medium px-[18px] py-1.5 rounded-[5px] cursor-pointer transition-all duration-150 border",
-                  activeStream === i
-                    ? "bg-brand border-brand text-white font-bold"
-                    : "bg-surface border-wire text-[#888] hover:border-brand hover:text-white",
-                ].join(" ")}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* ── CHAT SIDEBAR ── */}
