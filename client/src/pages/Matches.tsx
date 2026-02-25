@@ -4,29 +4,42 @@ import type { Match } from "@/types";
 function formatDate(utc: string) {
   const d = new Date(utc);
   return {
-    date: d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" }),
+    date: d.toLocaleDateString("en-GB", {
+      weekday: "short",
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    }),
     time: d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }),
   };
 }
 
 function MatchCard({ match }: { match: Match }) {
   const { date, time } = formatDate(match.utcDate);
-  const isHome = match.homeTeam.id === 57;
-  const opponent = isHome ? match.awayTeam : match.homeTeam;
 
   return (
     <div className="bg-surface border border-wire rounded-lg px-5 py-4 flex items-center gap-4 hover:border-brand/30 transition-colors">
       {/* Competition */}
-      <img src={match.competition.emblem} alt={match.competition.name} className="w-7 h-7 object-contain shrink-0 opacity-80" />
+      <img
+        src={match.competition.emblem}
+        alt={match.competition.name}
+        className="w-7 h-7 object-contain shrink-0 opacity-80"
+      />
 
       {/* Teams */}
       <div className="flex items-center gap-3 flex-1 min-w-0">
         {/* Home */}
         <div className="flex items-center gap-2 justify-end flex-1 min-w-0">
-          <span className={`text-[13px] font-bold truncate ${match.homeTeam.id === 57 ? "text-white" : "text-[#aaa]"}`}>
+          <span
+            className={`text-[13px] font-bold truncate ${match.homeTeam.id === 57 ? "text-white" : "text-[#aaa]"}`}
+          >
             {match.homeTeam.shortName}
           </span>
-          <img src={match.homeTeam.crest} alt={match.homeTeam.shortName} className="w-7 h-7 object-contain shrink-0" />
+          <img
+            src={match.homeTeam.crest}
+            alt={match.homeTeam.shortName}
+            className="w-7 h-7 object-contain shrink-0"
+          />
         </div>
 
         {/* vs */}
@@ -34,8 +47,14 @@ function MatchCard({ match }: { match: Match }) {
 
         {/* Away */}
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <img src={match.awayTeam.crest} alt={match.awayTeam.shortName} className="w-7 h-7 object-contain shrink-0" />
-          <span className={`text-[13px] font-bold truncate ${match.awayTeam.id === 57 ? "text-white" : "text-[#aaa]"}`}>
+          <img
+            src={match.awayTeam.crest}
+            alt={match.awayTeam.shortName}
+            className="w-7 h-7 object-contain shrink-0"
+          />
+          <span
+            className={`text-[13px] font-bold truncate ${match.awayTeam.id === 57 ? "text-white" : "text-[#aaa]"}`}
+          >
             {match.awayTeam.shortName}
           </span>
         </div>
@@ -76,7 +95,9 @@ export default function Matches() {
         )}
 
         {!loading && !error && matches.length === 0 && (
-          <p className="text-[13px] text-[#555] text-center py-10">No scheduled matches.</p>
+          <p className="text-[13px] text-[#555] text-center py-10">
+            No scheduled matches.
+          </p>
         )}
 
         <div className="flex flex-col gap-2">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import Home from "@/pages/Home";
 import Matches from "@/pages/Matches";
+import Rankings from "@/pages/Rankings";
 import type { Page } from "@/types";
 
 export default function App() {
@@ -12,11 +13,7 @@ export default function App() {
       <Navbar page={page} onNavigate={setPage} />
       {page === "Live" && <Home />}
       {page === "Matches" && <Matches />}
-      {page === "Rankings" && (
-        <div className="flex-1 flex items-center justify-center text-[#555] text-[13px]">
-          Rankings coming soon
-        </div>
-      )}
+      {page === "Rankings" && <Rankings />}
     </div>
   );
 }
