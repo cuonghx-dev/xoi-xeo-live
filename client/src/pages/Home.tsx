@@ -3,18 +3,16 @@ import { useWhep } from "@/hooks/useWhep";
 import { Navbar } from "@/components/Navbar";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import arsenalLogo from "@/assets/arsenal-fc-logo.png";
-
-/* ── SVG paths for icon toggling ── */
-const PATH_PLAY = "M8 5v14l11-7z";
-const PATH_PAUSE = "M6 19h4V5H6v14zm8-14v14h4V5h-4z";
-const PATH_VOL =
-  "M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z";
-const PATH_MUTE =
-  "M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z";
-const PATH_FS_ENTER =
-  "M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z";
-const PATH_FS_EXIT =
-  "M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z";
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Maximize,
+  Minimize,
+  Trophy,
+  MessageCircle,
+} from "lucide-react";
 
 function CtrlBtn({
   onClick,
@@ -135,13 +133,7 @@ export default function Home() {
             <div className="ml-auto flex items-center gap-2">
               <div className="flex items-center gap-1.5 bg-brand/10 border border-brand/25 rounded-full px-3 py-1 text-brand text-[11.5px] font-bold whitespace-nowrap tracking-[0.3px]">
                 {/* Premier League badge icon */}
-                <svg
-                  className="w-3.5 h-3.5 shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M12 3C8 3 5 6 5 9c0 2.5 1.5 4.5 3.5 5.5L8 19h8l-.5-4.5C17.5 13.5 19 11.5 19 9c0-3-3-6-7-6z" />
-                </svg>
+                <Trophy className="w-3.5 h-3.5 shrink-0" />
                 Premier League
               </div>
               {/* Chat toggle */}
@@ -155,9 +147,7 @@ export default function Home() {
                     : "bg-surface border-wire text-[#555] hover:border-brand/25 hover:text-brand",
                 ].join(" ")}
               >
-                <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                </svg>
+                <MessageCircle className="w-3.5 h-3.5 shrink-0" />
                 Chat
               </button>
             </div>
@@ -211,7 +201,10 @@ export default function Home() {
                         Kick-off · Emirates Stadium · 21:00
                       </p>
                       <button
-                        onClick={() => { void connect(); setMuted(false); }}
+                        onClick={() => {
+                          void connect();
+                          setMuted(false);
+                        }}
                         className="text-[12px] bg-brand/15 border border-brand/30 text-brand px-4 py-1.5 rounded hover:bg-brand hover:text-white transition-colors cursor-pointer"
                       >
                         ▶ Play
@@ -252,13 +245,11 @@ export default function Home() {
                 disabled={isConnecting}
                 title="Play / Pause"
               >
-                <svg
-                  className="w-[18px] h-[18px] block"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={isLive ? PATH_PAUSE : PATH_PLAY} />
-                </svg>
+                {isLive ? (
+                  <Pause className="w-[18px] h-[18px] block" />
+                ) : (
+                  <Play className="w-[18px] h-[18px] block" />
+                )}
               </CtrlBtn>
 
               {/* Progress bar */}
@@ -279,13 +270,11 @@ export default function Home() {
 
               {/* Mute */}
               <CtrlBtn onClick={toggleMute} title="Mute / Unmute">
-                <svg
-                  className="w-[18px] h-[18px] block"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={muted ? PATH_MUTE : PATH_VOL} />
-                </svg>
+                {muted ? (
+                  <VolumeX className="w-[18px] h-[18px] block" />
+                ) : (
+                  <Volume2 className="w-[18px] h-[18px] block" />
+                )}
               </CtrlBtn>
 
               {/* Volume slider */}
@@ -309,17 +298,14 @@ export default function Home() {
                 title="Fullscreen"
                 className="ml-auto"
               >
-                <svg
-                  className="w-[18px] h-[18px] block"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d={isFullscreen ? PATH_FS_EXIT : PATH_FS_ENTER} />
-                </svg>
+                {isFullscreen ? (
+                  <Minimize className="w-[18px] h-[18px] block" />
+                ) : (
+                  <Maximize className="w-[18px] h-[18px] block" />
+                )}
               </CtrlBtn>
             </div>
           </div>
-
         </div>
 
         {/* ── CHAT SIDEBAR ── */}
