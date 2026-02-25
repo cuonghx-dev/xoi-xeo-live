@@ -47,7 +47,7 @@ export default function Rankings() {
   const { table, loading, error } = useStandings();
 
   return (
-    <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex-1 overflow-y-auto min-h-0 p-4">
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-2.5 mb-4">
           <h2 className="text-[13px] font-extrabold tracking-[2px] uppercase text-[#555]">
@@ -69,8 +69,8 @@ export default function Rankings() {
         )}
 
         {!loading && !error && table.length > 0 && (
-          <div className="bg-surface border border-wire rounded-lg overflow-hidden">
-            <table className="w-full border-collapse">
+          <div className="bg-surface border border-wire rounded-lg overflow-x-auto">
+            <table className="w-full min-w-[480px] border-collapse">
               <thead>
                 <tr className="border-b border-wire">
                   <th className="py-2 pl-4 pr-2 text-[10px] font-bold tracking-widest uppercase text-[#444] text-center w-8">#</th>
