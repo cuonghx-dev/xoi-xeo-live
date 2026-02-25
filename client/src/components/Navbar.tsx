@@ -1,12 +1,21 @@
 import arsenalLogo from "@/assets/arsenal-fc-logo.png";
+import type { Page } from "@/types";
 
-const NAV_LINKS = ["Live", "Matches", "Rankings"] as const;
+const NAV_LINKS: Page[] = ["Live", "Matches", "Rankings"];
 
-export function Navbar() {
+interface NavbarProps {
+  page: Page;
+  onNavigate: (page: Page) => void;
+}
+
+export function Navbar({ page, onNavigate }: NavbarProps) {
   return (
     <header className="h-[54px] bg-surface border-b-2 border-brand flex items-center justify-between px-5 shrink-0 z-10">
       {/* Logo */}
-      <a href="#" className="flex items-center gap-2.5 no-underline select-none">
+      <button
+        onClick={() => onNavigate("Live")}
+        className="flex items-center gap-2.5 no-underline select-none bg-transparent border-none cursor-pointer p-0"
+      >
         <img src={arsenalLogo} alt="Arsenal FC" className="h-8 w-auto shrink-0" />
 
         <div className="flex flex-col leading-[1.15]">
@@ -15,27 +24,27 @@ export function Navbar() {
           </span>
           <span className="text-[9.5px] text-[#888] tracking-[1.5px] uppercase">The Gunners Hub</span>
         </div>
-      </a>
+      </button>
 
       {/* Nav */}
       <nav className="hidden md:flex gap-1">
         {NAV_LINKS.map((item) => (
-          <a
+          <button
             key={item}
-            href="#"
+            onClick={() => onNavigate(item)}
             className={[
-              "text-[13px] px-[13px] py-[5px] rounded no-underline transition-all duration-150",
-              item === "Live"
+              "text-[13px] px-[13px] py-[5px] rounded transition-all duration-150 bg-transparent border-none cursor-pointer",
+              item === page
                 ? "text-white bg-brand"
                 : "text-[#888] hover:text-white hover:bg-brand/20",
             ].join(" ")}
           >
             {item}
-          </a>
+          </button>
         ))}
       </nav>
 
-      {/* Live badge (always visible — site branding) */}
+      {/* Live badge */}
       <div className="flex items-center gap-2.5">
         <span className="bg-brand text-white text-[10px] font-extrabold px-2 py-1 rounded-[3px] tracking-[1.5px] animate-pulse">
           ● LIVE

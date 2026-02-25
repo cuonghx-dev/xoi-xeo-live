@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useWhep } from "@/hooks/useWhep";
-import { Navbar } from "@/components/Navbar";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import arsenalLogo from "@/assets/arsenal-fc-logo.png";
 import {
@@ -114,10 +113,7 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-pitch text-white">
-      <Navbar />
-
-      <main className="flex flex-1 overflow-hidden min-h-0">
+    <main className="flex flex-1 overflow-hidden min-h-0">
         {/* ── VIDEO SECTION ── */}
         <div className="flex-1 flex flex-col overflow-hidden p-3 gap-2.5 min-w-0">
           {/* Match info bar */}
@@ -311,6 +307,5 @@ export default function Home() {
         {/* ── CHAT SIDEBAR ── */}
         <ChatSidebar open={chatOpen} onToggle={() => setChatOpen((v) => !v)} />
       </main>
-    </div>
   );
 }

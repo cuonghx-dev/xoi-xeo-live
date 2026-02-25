@@ -11,5 +11,12 @@ export default defineConfig({
   },
   server: {
     host: '0.0.0.0',
+    proxy: {
+      '/api/football': {
+        target: 'https://api.football-data.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/football/, ''),
+      },
+    },
   },
 })
