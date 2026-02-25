@@ -134,9 +134,9 @@ export default function Home() {
   };
 
   return (
-    <main className="flex flex-1 overflow-hidden min-h-0">
+    <main className="flex flex-col md:flex-row flex-1 overflow-y-auto md:overflow-hidden min-h-0">
         {/* ── VIDEO SECTION ── */}
-        <div className="flex-1 flex flex-col overflow-hidden p-3 gap-2.5 min-w-0">
+        <div className="flex flex-col md:flex-1 md:overflow-hidden p-3 gap-2.5 min-w-0">
           {/* Match info bar */}
           <div className="bg-surface border border-wire rounded-lg px-4 py-[9px] flex flex-wrap items-center gap-x-3.5 gap-y-1.5 shrink-0">
             <div className="min-w-0">
@@ -173,7 +173,7 @@ export default function Home() {
           {/* Player */}
           <div
             ref={playerRef}
-            className="relative bg-black rounded-[10px] overflow-hidden flex-1 min-h-0 border border-wire group/player"
+            className="relative bg-black rounded-[10px] overflow-hidden aspect-video md:aspect-auto md:flex-1 md:min-h-0 border border-wire group/player"
           >
             {/* Placeholder — disconnected or error */}
             {!isLive && !isConnecting && (
@@ -188,7 +188,7 @@ export default function Home() {
                 <img
                   src={arsenalLogo}
                   alt="Arsenal FC"
-                  className="w-[160px] opacity-[0.22]"
+                  className="hidden md:block w-[160px] opacity-[0.22]"
                 />
 
                 <div className="text-center">
