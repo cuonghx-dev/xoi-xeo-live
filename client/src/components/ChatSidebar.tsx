@@ -1,3 +1,5 @@
+import arsenalLogo from "@/assets/arsenal-fc-logo.png";
+
 interface ChatSidebarProps {
   open: boolean;
   onToggle: () => void;
@@ -11,16 +13,7 @@ export function ChatSidebar({ open, onToggle }: ChatSidebarProps) {
 
       {/* Header */}
       <div className="px-3.5 py-[13px] border-b border-wire flex items-center gap-2">
-        {/* Small cannon */}
-        <svg className="w-5 h-5 shrink-0 opacity-75" viewBox="0 0 80 48" fill="none">
-          <rect x="4"  y="16" width="50" height="13" rx="3"   fill="#EF0107"/>
-          <rect x="51" y="14" width="18" height="17" rx="2.5" fill="#EF0107"/>
-          <rect x="66" y="18" width="6"  height="9"  rx="1.5" fill="#6b0000"/>
-          <circle cx="18" cy="34" r="9" stroke="#EF0107" strokeWidth="2.5" fill="none"/>
-          <circle cx="18" cy="34" r="3.5" fill="#EF0107"/>
-          <circle cx="40" cy="34" r="9" stroke="#EF0107" strokeWidth="2.5" fill="none"/>
-          <circle cx="40" cy="34" r="3.5" fill="#EF0107"/>
-        </svg>
+        <img src={arsenalLogo} alt="Arsenal FC" className="h-5 w-auto shrink-0 opacity-75" />
         <span className="text-[13px] font-bold tracking-[0.3px]">Gunners Chat</span>
         <div className="ml-auto flex items-center gap-2 text-[10.5px] text-[#444]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#444] inline-block"/>
@@ -39,21 +32,7 @@ export function ChatSidebar({ open, onToggle }: ChatSidebarProps) {
 
       {/* Coming-soon body */}
       <div className="flex-1 flex flex-col items-center justify-center gap-3.5 px-5 text-center">
-        {/* Arsenal crest (dim) */}
-        <svg className="w-[60px] opacity-15" viewBox="0 0 200 240" fill="none">
-          <path d="M100 8 L186 38 L186 138 Q186 196 100 232 Q14 196 14 138 L14 38 Z"
-                stroke="#EF0107" strokeWidth="3.5" fill="rgba(239,1,7,0.04)"/>
-          <text x="100" y="80" textAnchor="middle" fill="#EF0107" fontSize="26"
-                fontWeight="900" fontFamily="Georgia, serif" letterSpacing="4">AFC</text>
-          <line x1="46" y1="92" x2="154" y2="92" stroke="rgba(239,1,7,0.25)" strokeWidth="1"/>
-          <rect x="32"  y="108" width="104" height="22" rx="5" fill="#EF0107"/>
-          <rect x="130" y="104" width="32"  height="30" rx="4" fill="#EF0107"/>
-          <rect x="156" y="109" width="9"   height="20" rx="2.5" fill="#6b0000"/>
-          <circle cx="58"  cy="140" r="17" stroke="#EF0107" strokeWidth="3" fill="none"/>
-          <circle cx="58"  cy="140" r="6"  fill="#EF0107"/>
-          <circle cx="104" cy="140" r="17" stroke="#EF0107" strokeWidth="3" fill="none"/>
-          <circle cx="104" cy="140" r="6"  fill="#EF0107"/>
-        </svg>
+        <img src={arsenalLogo} alt="Arsenal FC" className="w-[90px] opacity-15" />
 
         <p className="text-[14px] font-bold text-[#444]">Coming Soon</p>
         <p className="text-[12px] text-[#2e2e2e] leading-[1.7] max-w-[190px]">

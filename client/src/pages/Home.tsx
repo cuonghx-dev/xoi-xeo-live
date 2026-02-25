@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useWhep } from "@/hooks/useWhep";
 import { Navbar } from "@/components/Navbar";
 import { ChatSidebar } from "@/components/ChatSidebar";
+import arsenalLogo from "@/assets/arsenal-fc-logo.png";
 
 /* ── SVG paths for icon toggling ── */
 const PATH_PLAY = "M8 5v14l11-7z";
@@ -177,149 +178,11 @@ export default function Home() {
                 }}
               >
                 {/* Arsenal Crest */}
-                <svg
-                  className="w-[108px] opacity-[0.22]"
-                  viewBox="0 0 200 240"
-                  fill="none"
-                >
-                  <path
-                    d="M100 8 L186 38 L186 138 Q186 196 100 232 Q14 196 14 138 L14 38 Z"
-                    stroke="#EF0107"
-                    strokeWidth="3.5"
-                    fill="rgba(239,1,7,0.06)"
-                  />
-                  <path
-                    d="M100 20 L174 46 L174 138 Q174 188 100 220 Q26 188 26 138 L26 46 Z"
-                    stroke="rgba(239,1,7,0.2)"
-                    strokeWidth="1"
-                    fill="none"
-                  />
-                  <text
-                    x="100"
-                    y="80"
-                    textAnchor="middle"
-                    fill="#EF0107"
-                    fontSize="26"
-                    fontWeight="900"
-                    fontFamily="Georgia, serif"
-                    letterSpacing="4"
-                  >
-                    AFC
-                  </text>
-                  <line
-                    x1="46"
-                    y1="92"
-                    x2="154"
-                    y2="92"
-                    stroke="rgba(239,1,7,0.35)"
-                    strokeWidth="1"
-                  />
-                  <rect
-                    x="32"
-                    y="108"
-                    width="104"
-                    height="22"
-                    rx="5"
-                    fill="#EF0107"
-                  />
-                  <rect
-                    x="130"
-                    y="104"
-                    width="32"
-                    height="30"
-                    rx="4"
-                    fill="#EF0107"
-                  />
-                  <rect
-                    x="156"
-                    y="109"
-                    width="9"
-                    height="20"
-                    rx="2.5"
-                    fill="#6b0000"
-                  />
-                  <circle
-                    cx="58"
-                    cy="140"
-                    r="17"
-                    stroke="#EF0107"
-                    strokeWidth="3"
-                    fill="rgba(239,1,7,0.08)"
-                  />
-                  <circle cx="58" cy="140" r="6" fill="#EF0107" />
-                  <line
-                    x1="58"
-                    y1="123"
-                    x2="58"
-                    y2="157"
-                    stroke="#EF0107"
-                    strokeWidth="1.5"
-                  />
-                  <line
-                    x1="41"
-                    y1="140"
-                    x2="75"
-                    y2="140"
-                    stroke="#EF0107"
-                    strokeWidth="1.5"
-                  />
-                  <circle
-                    cx="104"
-                    cy="140"
-                    r="17"
-                    stroke="#EF0107"
-                    strokeWidth="3"
-                    fill="rgba(239,1,7,0.08)"
-                  />
-                  <circle cx="104" cy="140" r="6" fill="#EF0107" />
-                  <line
-                    x1="104"
-                    y1="123"
-                    x2="104"
-                    y2="157"
-                    stroke="#EF0107"
-                    strokeWidth="1.5"
-                  />
-                  <line
-                    x1="87"
-                    y1="140"
-                    x2="121"
-                    y2="140"
-                    stroke="#EF0107"
-                    strokeWidth="1.5"
-                  />
-                  <rect
-                    x="52"
-                    y="128"
-                    width="58"
-                    height="8"
-                    rx="2"
-                    fill="rgba(239,1,7,0.3)"
-                  />
-                  <text
-                    x="100"
-                    y="186"
-                    textAnchor="middle"
-                    fill="#EF0107"
-                    fontSize="13"
-                    fontWeight="700"
-                    fontFamily="sans-serif"
-                    letterSpacing="5"
-                  >
-                    ARSENAL
-                  </text>
-                  <text
-                    x="100"
-                    y="202"
-                    textAnchor="middle"
-                    fill="rgba(239,1,7,0.5)"
-                    fontSize="8.5"
-                    fontFamily="sans-serif"
-                    letterSpacing="2"
-                  >
-                    FOOTBALL CLUB
-                  </text>
-                </svg>
+                <img
+                  src={arsenalLogo}
+                  alt="Arsenal FC"
+                  className="w-[160px] opacity-[0.22]"
+                />
 
                 <div className="text-center">
                   {isError ? (
