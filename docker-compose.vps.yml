@@ -1,18 +1,24 @@
 services:
   mediamtx:
     image: bluenviron/mediamtx:1
-    network_mode: host
     volumes:
       - ./mediamtx/config.yml:/mediamtx.yml
-
-  client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile
-    env_file:
-      - ./client/.env
-    volumes:
-      - ./client:/app
-      - /app/node_modules
     ports:
-      - "5173:5173"
+      - "8889:8889" # WebRTC HTTP (WHIP/WHEP)
+      - "8189:8189/udp" # WebRTC ICE/UDP  ← this one is critical!
+      - "1935:1935" # RTMP (optional)
+      - "8888:8888" # HLS (optional)
+      - "8554:8554" # RTSP (optional)
+
+
+  # client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - ./client/.env
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   ports:
+  #     - "5173:5173"
