@@ -1,7 +1,5 @@
 export type Status = "disconnected" | "connecting" | "live" | "error";
 
-export type Page = "Live" | "Matches" | "Rankings";
-
 export interface MatchTeam {
   id: number;
   name: string;
