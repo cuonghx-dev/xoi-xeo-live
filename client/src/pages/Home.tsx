@@ -47,7 +47,7 @@ export default function Home() {
   const [muted, setMuted] = useState(true);
   const [volume, setVolume] = useState(80);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(() => window.innerWidth >= 768);
+  const [chatOpen, setChatOpen] = useState(true);
 
   const isLive = status === "live";
   const isConnecting = status === "connecting";
@@ -80,15 +80,6 @@ export default function Home() {
       videoRef.current?.removeEventListener("webkitendfullscreen", handler);
     };
   }, [videoRef]);
-
-  /* close chat on mobile resize */
-  useEffect(() => {
-    const handler = () => {
-      if (window.innerWidth < 768) setChatOpen(false);
-    };
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
 
   /* live progress bar — direct DOM mutation, no re-renders */
   useEffect(() => {
