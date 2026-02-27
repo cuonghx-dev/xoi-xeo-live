@@ -23,6 +23,8 @@ REQUIRED_VARS=(
   MEDIAMTX_PUBLISH_PATH
   MEDIAMTX_IP_ADDRESS
   FOOTBALL_API_TOKEN
+  POSTGRES_PASSWORD
+  JWT_SECRET
 )
 
 for var in "${REQUIRED_VARS[@]}"; do
@@ -35,3 +37,4 @@ done
 # Run all generators
 bash "$SCRIPT_DIR/scripts/generate-mediamtx-config.sh"
 bash "$SCRIPT_DIR/scripts/generate-client-env.sh"
+bash "$SCRIPT_DIR/scripts/generate-server-env.sh"

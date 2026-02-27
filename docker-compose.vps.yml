@@ -1,4 +1,27 @@
 services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: xoixeo
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server:/app
+    ports:
+      - "4173:4173"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
   mediamtx:
     image: bluenviron/mediamtx:1
     volumes:
@@ -20,3 +43,6 @@ services:
       - ./client:/app
     ports:
       - "5173:5173"
+
+volumes:
+  postgres_data:
