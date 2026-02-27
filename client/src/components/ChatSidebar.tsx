@@ -53,7 +53,7 @@ export function ChatSidebar({ open, onToggle }: ChatSidebarProps) {
   };
 
   return (
-    <div className="w-full md:w-[270px] shrink-0 bg-surface border-t border-wire md:border-t-0 md:border-l flex flex-col md:overflow-hidden">
+    <div className="w-full md:w-[270px] shrink-0 bg-surface border-t border-wire md:border-t-0 md:border-l flex flex-col overflow-hidden max-h-[45vh] md:max-h-none">
       {/* Header */}
       <div className="px-3.5 py-[13px] border-b border-wire flex items-center gap-2">
         <img
