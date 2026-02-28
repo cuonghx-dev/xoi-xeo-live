@@ -15,6 +15,12 @@ authInternalUsers:
     permissions:
       - action: publish
         path: MEDIAMTX_PUBLISH_PATH
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: read
+        path: MEDIAMTX_PUBLISH_PATH
 
 paths:
   MEDIAMTX_PUBLISH_PATH:

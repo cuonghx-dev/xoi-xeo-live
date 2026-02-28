@@ -14,13 +14,21 @@ webrtcICEHostNAT1To1IPs:
 
 webrtcICEUDPMuxAddress: :8189
 
+webrtcICEServers2:
+  - url: stun:stun.l.google.com:19302
+
 authInternalUsers:
-  # Your publisher account
   - user: ${MEDIAMTX_PUBLISH_USER}
     pass: ${MEDIAMTX_PUBLISH_PASS}
     ips: []
     permissions:
       - action: publish
+        path: ${MEDIAMTX_PUBLISH_PATH}
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: read
         path: ${MEDIAMTX_PUBLISH_PATH}
 
 paths:
