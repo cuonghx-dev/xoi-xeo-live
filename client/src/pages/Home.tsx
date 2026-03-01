@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useHls } from "@/hooks/useHls";
+import { useViewerCount } from "@/hooks/useViewerCount";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import arsenalLogo from "@/assets/arsenal-fc-logo.png";
 import {
@@ -12,6 +13,7 @@ import {
   Trophy,
   MessageCircle,
   Radio,
+  Eye,
 } from "lucide-react";
 
 function CtrlBtn({
@@ -41,6 +43,7 @@ function CtrlBtn({
 
 export default function Home() {
   const { videoRef, status, error, connect, disconnect } = useHls();
+  const viewerCount = useViewerCount();
   const playerRef = useRef<HTMLDivElement>(null);
   const progressFillRef = useRef<HTMLDivElement>(null);
   const progRef = useRef(0);
@@ -144,6 +147,11 @@ export default function Home() {
                 {/* Premier League badge icon */}
                 <Trophy className="w-3.5 h-3.5 shrink-0" />
                 Premier League
+              </div>
+              {/* Viewer count */}
+              <div className="flex items-center gap-1.5 bg-surface border border-wire rounded-full px-3 py-1 text-[#888] text-[11.5px] font-bold whitespace-nowrap">
+                <Eye className="w-3.5 h-3.5 shrink-0" />
+                {viewerCount.toLocaleString()}
               </div>
               {/* Chat toggle */}
               <button
