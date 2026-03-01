@@ -11,6 +11,7 @@ import {
   Minimize,
   Trophy,
   MessageCircle,
+  Radio,
 } from "lucide-react";
 
 function CtrlBtn({
@@ -313,6 +314,13 @@ export default function Home() {
                 )}
               </CtrlBtn>
             </div>
+          </div>
+
+          {/* Broadcaster */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <Radio className="w-3.5 h-3.5 text-brand shrink-0" />
+            <span className="text-[12px] text-[#888]">Broadcast by</span>
+          <span className="text-[12px] font-semibold text-[#ccc]">Người Tru + Ô Đề Gấc</span>
           </div>
         </div>
 
