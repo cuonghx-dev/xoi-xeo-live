@@ -7,6 +7,10 @@ OUTPUT="mediamtx/config.yml"
 mkdir -p mediamtx
 
 cat > "$OUTPUT" <<EOF
+hls: yes
+hlsAddress: :8888
+hlsAllowOrigin: "*"
+
 webrtc: yes
 webrtcAddress: :8889
 webrtcICEHostNAT1To1IPs:
