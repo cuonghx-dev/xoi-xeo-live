@@ -10,6 +10,9 @@ cat > "$OUTPUT" <<EOF
 hls: yes
 hlsAddress: :8888
 hlsAllowOrigin: "*"
+hlsSegmentDuration: 1s
+hlsPartDuration: 200ms
+hlsSegmentCount: 7
 
 webrtc: yes
 webrtcAddress: :8889
